@@ -27,7 +27,6 @@
   "scripts": {
     "build": "tsgo",
     "build:watch": "tsgo --watch",
-    "clean": "rm -rf dist",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
   },

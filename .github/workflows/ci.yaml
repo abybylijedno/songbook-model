@@ -87,6 +87,7 @@ jobs:
           add: "."
           message: "chore(version): Build ${{ steps.semver.outputs.next }}"
           push: "--set-upstream origin ${{ steps.semver.outputs.nextMajor }}"
+          tag: ${{ steps.semver.outputs.next }}
 
       - if: ${{ github.event_name == 'push' && github.ref_name == 'master' }}
         name: Release

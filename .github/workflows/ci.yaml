@@ -50,7 +50,7 @@ jobs:
         run: |
           if git checkout $MAJOR 2>/dev/null; then
             echo "Branch $MAJOR already checked out"
-            git pull --ff --no-edit origin main
+            git pull --ff --no-edit origin master
           else
             echo "Branch $MAJOR not yet checked out - checking out now"
             git checkout -b "$MAJOR"

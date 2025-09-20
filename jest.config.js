@@ -1,14 +1,11 @@
+import { createJsWithTsEsmPreset } from "ts-jest";
+
+const tsJestTransformCfg = createJsWithTsEsmPreset().transform;
+
 export default {
     extensionsToTreatAsEsm: ['.ts', '.tsx'],
     transform: {
-        "^.+\\.(t|j)sx?$": [
-            "@swc/jest",
-            {
-                jsc: {
-                    target: "es2021",
-                },
-            },
-        ],
+        ...tsJestTransformCfg,
     },
     testMatch: [
         "**/__tests__/**/*.(test|spec).(ts|js)",

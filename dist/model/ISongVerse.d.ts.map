@@ -1,0 +1,1 @@
+{"version":3,"file":"ISongVerse.d.ts","sourceRoot":"","sources":["../../src/model/ISongVerse.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,UAAU,EAAE,MAAM,cAAc,CAAC;AAE/C,MAAM,WAAW,UAAU;IACzB,IAAI,CAAC,EAAE,MAAM,CAAC;IACd,KAAK,EAAE,UAAU,EAAE,CAAC;CACrB"}

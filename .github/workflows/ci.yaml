@@ -48,13 +48,7 @@ jobs:
         env:
           MAJOR: ${{ steps.semver.outputs.nextMajor }}
         run: |
-          if git checkout $MAJOR 2>/dev/null; then
-            echo "Branch $MAJOR already checked out"
-            git pull --ff --no-edit origin master
-          else
-            echo "Branch $MAJOR not yet checked out - checking out now"
-            git checkout -b "$MAJOR"
-          fi
+          git checkout -b "$MAJOR"
 
       - name: Setup Node.js
         uses: actions/setup-node@v5
@@ -86,7 +80,7 @@ jobs:
         with:
           add: "."
           message: "chore(version): Build ${{ steps.semver.outputs.next }}"
-          push: "--set-upstream origin ${{ steps.semver.outputs.nextMajor }}"
+          push: "--force --set-upstream origin ${{ steps.semver.outputs.nextMajor }}"
           tag: ${{ steps.semver.outputs.next }}
 
       - if: ${{ github.event_name == 'push' && github.ref_name == 'master' }}

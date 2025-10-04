@@ -1,7 +1,5 @@
 import { jest } from '@jest/globals';
-import { VerseLineFactory, createVerseLineObject } from '../../factory/VerseLineFactory';
-import { IVerseLine } from '../../model/IVerseLine';
-
+import { VerseLineFactory, createVerseLineObject } from '../../dist/factory/VerseLineFactory.js';
 
 describe('VerseLineFactory', () => {
   describe('fromLine', () => {

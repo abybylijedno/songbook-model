@@ -1,8 +1,8 @@
-import { SongMetaFactory } from '../SongMetaFactory';
-import { SongMetaUrlType } from '../../model/SongMetaUrlType';
+import { SongMetaFactory } from '../../dist/factory/SongMetaFactory.js';
+import { SongMetaUrlType } from '../../dist/model/SongMetaUrlType.js';
 
 describe('SongMetaFactory', () => {
-  let factory: SongMetaFactory;
+  let factory;
 
   beforeEach(() => {
     factory = new SongMetaFactory();

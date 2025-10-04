@@ -1,10 +1,9 @@
 import { jest } from '@jest/globals';
-import { SongVerseFactory, createSongVerseObject } from '../../factory/SongVerseFactory';
-import { IVerseLine } from '../../model/IVerseLine';
+import { SongVerseFactory, createSongVerseObject } from '../../dist/factory/SongVerseFactory.js';
 
 
 describe('SongVerseFactory', () => {
-  let factory: SongVerseFactory;
+  let factory;
 
   beforeEach(() => {
     factory = new SongVerseFactory();
@@ -77,7 +76,7 @@ describe('SongVerseFactory', () => {
 
   describe('createSongVerseObject', () => {
     it('should create verse object with provided lines', () => {
-      const lines: IVerseLine[] = [
+      const lines = [
         { text: 'Test', chord: 'C' },
         { text: 'Test2', chord: 'G' }
       ];

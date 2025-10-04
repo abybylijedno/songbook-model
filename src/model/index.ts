@@ -1,9 +1,9 @@
-import { type ISongMeta } from "./ISongMeta";
-import { type ISongMetaUrl } from "./ISongMetaUrl";
-import { type ISong } from "./ISong";
-import { type ISongVerse } from "./ISongVerse";
-import { type IVerseLine } from "./IVerseLine";
-import { SongMetaUrlType } from "./SongMetaUrlType";
+import { type ISongMeta } from './ISongMeta.js';
+import { type ISongMetaUrl } from './ISongMetaUrl.js';
+import { type ISong } from './ISong.js';
+import { type ISongVerse } from './ISongVerse.js';
+import { type IVerseLine } from './IVerseLine.js';
+import { SongMetaUrlType } from './SongMetaUrlType.js';
 
 export {
   type ISongMeta,

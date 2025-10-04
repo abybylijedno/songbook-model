@@ -1,7 +1,7 @@
-import { SongImporter } from '../SongImporter';
+import { SongImporter } from '@abybylijedno/songbook-model';
 
 describe('SongImporter Integration Tests', () => {
-  let importer: SongImporter;
+  let importer;
 
   beforeEach(() => {
     importer = new SongImporter();

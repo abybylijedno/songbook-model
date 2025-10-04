@@ -1,6 +1,6 @@
-import { HASH, SPACE, NL, EMPTY_STRING } from './constants';
-import { type ISong } from './model';
-import { SongFactory } from './factory/SongFactory';
+import { HASH, SPACE, NL, EMPTY_STRING } from './constants.js';
+import { type ISong } from './model/index.js';
+import { SongFactory } from './factory/SongFactory.js';
 
 const BEGINING: string = HASH + SPACE;
 

@@ -1,11 +1,11 @@
 // Import and re-export main classes
-import { SongImporter } from "./SongImporter";
+import { SongImporter } from './SongImporter.js';
 
 // Import and re-export all factories
-export * from "./factory";
+export * from "./factory/index.js";
 
 // Import and re-export all models and types
-export * from "./model";
+export * from "./model/index.js";
 
 // Export main classes
 export {

@@ -1,4 +1,4 @@
-import type { SongMetaUrlType } from "./SongMetaUrlType";
+import type { SongMetaUrlType } from "./SongMetaUrlType.js";
 
 export interface ISongMetaUrl {
   type: SongMetaUrlType;

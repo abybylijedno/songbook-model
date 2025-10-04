@@ -1,5 +1,5 @@
-import type { ISongMeta } from './ISongMeta';
-import type { ISongVerse } from './ISongVerse';
+import type { ISongMeta } from './ISongMeta.js';
+import type { ISongVerse } from './ISongVerse.js';
 
 export interface ISong {
   slug: string;

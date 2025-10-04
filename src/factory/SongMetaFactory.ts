@@ -1,5 +1,5 @@
-import { type ISongMeta, type ISongMetaUrl } from '../model';
-import { findEnum as findMetaUrlTypeEnum } from '../model/SongMetaUrlType';
+import { type ISongMeta, type ISongMetaUrl } from '../model/index.js';
+import { findEnum as findMetaUrlTypeEnum } from '../model/SongMetaUrlType.js';
 
 const REGEXP: RegExp =
   /^> meta\/(?<type>[^:/]+)(?:\/(?<subtype>[^:]+))?: *(?<value>.+)$/;

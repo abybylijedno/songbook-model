@@ -1,4 +1,4 @@
-import type { ISongMetaUrl } from "./ISongMetaUrl";
+import type { ISongMetaUrl } from "./ISongMetaUrl.js";
 
 export interface ISongMeta {
   author?: string;

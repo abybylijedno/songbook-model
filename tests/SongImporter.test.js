@@ -1,9 +1,9 @@
 import { jest } from '@jest/globals';
-import { SongImporter } from '../SongImporter';
+import { SongImporter } from '../dist/SongImporter.js';
 
 
 describe('SongImporter', () => {
-  let importer: SongImporter;
+  let importer;
 
   beforeEach(() => {
     importer = new SongImporter();

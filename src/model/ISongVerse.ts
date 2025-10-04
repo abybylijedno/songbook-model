@@ -1,4 +1,4 @@
-import type { IVerseLine } from './IVerseLine';
+import type { IVerseLine } from './IVerseLine.js';
 
 export interface ISongVerse {
   uuid?: string;

@@ -1,6 +1,5 @@
 import { jest } from '@jest/globals';
-import { SongFactory, createSongObject } from '../SongFactory';
-import { ISongMeta, ISongVerse } from '../../model';
+import { SongFactory, createSongObject } from '../../dist/factory/SongFactory.js';
 
 describe('SongFactory', () => {
   describe('isBegining', () => {
@@ -53,7 +52,7 @@ describe('SongFactory', () => {
   });
 
   describe('finishVerse', () => {
-    let factory: SongFactory;
+    let factory;
 
     beforeEach(() => {
       factory = new SongFactory('## Test Song');
@@ -64,7 +63,7 @@ describe('SongFactory', () => {
       const mockVerse = {
         get: jest.fn(() => ({ uuid: 'verse-uuid', lines: [] }))
       };
-      factory.currentVerse = mockVerse as any;
+      factory.currentVerse = mockVerse;
 
       factory.finishVerse();
 
@@ -80,7 +79,7 @@ describe('SongFactory', () => {
   });
 
   describe('addLine', () => {
-    let factory: SongFactory;
+    let factory;
 
     beforeEach(() => {
       factory = new SongFactory('## Test Song');
@@ -134,8 +133,8 @@ describe('SongFactory', () => {
   });
 
   describe('createSongObject', () => {
-    const mockMeta: ISongMeta = { author: 'Test Author' };
-    const mockVerses: ISongVerse[] = [
+    const mockMeta = { author: 'Test Author' };
+    const mockVerses = [
       {
         uuid: 'verse-1',
         lines: [

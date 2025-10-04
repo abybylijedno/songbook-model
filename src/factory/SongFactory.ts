@@ -1,8 +1,8 @@
-import { HASH, SPACE, GT } from '../constants';
-import { SongMetaFactory } from './SongMetaFactory';
-import { SongVerseFactory } from './SongVerseFactory';
-import { type ISong, type ISongMeta, type ISongVerse } from '../model';
-import { slugify } from '../utils';
+import { HASH, SPACE, GT } from '../constants.js';
+import { SongMetaFactory } from './SongMetaFactory.js';
+import { SongVerseFactory } from './SongVerseFactory.js';
+import { type ISong, type ISongMeta, type ISongVerse } from '../model/index.js';
+import { slugify } from '../utils.js';
 
 const BEGINING: string = HASH + HASH + SPACE;
 

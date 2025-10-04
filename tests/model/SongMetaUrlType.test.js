@@ -1,4 +1,4 @@
-import { SongMetaUrlType, findEnum } from '../SongMetaUrlType';
+import { SongMetaUrlType, findEnum } from '../../dist/model/SongMetaUrlType.js';
 
 describe('SongMetaUrlType', () => {
   describe('enum values', () => {
@@ -33,8 +33,8 @@ describe('SongMetaUrlType', () => {
     });
 
     it('should throw error for null/undefined values', () => {
-      expect(() => findEnum(null as any)).toThrow("Couldn't find enum matching 'null'");
-      expect(() => findEnum(undefined as any)).toThrow("Couldn't find enum matching 'undefined'");
+      expect(() => findEnum(null)).toThrow("Couldn't find enum matching 'null'");
+      expect(() => findEnum(undefined)).toThrow("Couldn't find enum matching 'undefined'");
     });
 
     it('should be case sensitive', () => {

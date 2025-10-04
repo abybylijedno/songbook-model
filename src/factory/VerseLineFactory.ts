@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { type IVerseLine } from '../model';
+import { type IVerseLine } from '../model/index.js';
 
 const SEPARATOR: string = ' | ';
 

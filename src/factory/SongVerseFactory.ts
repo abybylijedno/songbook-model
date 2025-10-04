@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
-import { VerseLineFactory } from './VerseLineFactory';
-import { type ISongVerse, type IVerseLine } from '../model';
+import { VerseLineFactory } from './VerseLineFactory.js';
+import { type ISongVerse, type IVerseLine } from '../model/index.js';
 
 export class SongVerseFactory implements ISongVerse {
   lines: IVerseLine[];

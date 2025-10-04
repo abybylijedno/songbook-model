@@ -1,4 +1,4 @@
-import { slugify } from '../utils';
+import { slugify } from '../dist/utils.js';
 
 describe('utils', () => {
   describe('slugify', () => {

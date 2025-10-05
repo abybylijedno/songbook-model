@@ -1,10 +1,10 @@
-import { SongImporter } from '@abybylijedno/songbook-model';
+import { SongsFileImporter } from '@abybylijedno/songbook-model';
 
-describe('SongImporter Integration Tests', () => {
+describe('SongsFileImporter Integration Tests', () => {
   let importer;
 
   beforeEach(() => {
-    importer = new SongImporter();
+    importer = new SongsFileImporter();
   });
 
   it('should parse complete songbook with multiple songs', () => {

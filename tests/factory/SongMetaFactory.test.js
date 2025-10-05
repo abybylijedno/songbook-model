@@ -8,6 +8,32 @@ describe('SongMetaFactory', () => {
     factory = new SongMetaFactory();
   });
 
+  describe('processPart', () => {
+    it('should process multi-line meta content', () => {
+      const part = '> meta/author: John Doe\n> meta/album: Great Album\n> meta/copyright: 2023';
+      factory.processPart(part);
+      
+      expect(factory.author).toBe('John Doe');
+      expect(factory.album).toBe('Great Album');
+      expect(factory.copyright).toBe('2023');
+    });
+
+    it('should handle single line content', () => {
+      const part = '> meta/author: Single Author';
+      factory.processPart(part);
+      
+      expect(factory.author).toBe('Single Author');
+    });
+
+    it('should filter out empty lines', () => {
+      const part = '> meta/author: John Doe\n\n\n> meta/album: Great Album\n';
+      factory.processPart(part);
+      
+      expect(factory.author).toBe('John Doe');
+      expect(factory.album).toBe('Great Album');
+    });
+  });
+
   describe('processLine', () => {
     it('should parse author meta', () => {
       factory.processLine('> meta/author: John Doe');

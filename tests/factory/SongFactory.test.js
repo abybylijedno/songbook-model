@@ -1,121 +1,69 @@
 import { jest } from '@jest/globals';
 import { SongFactory, createSongObject } from '../../dist/factory/SongFactory.js';
-
 describe('SongFactory', () => {
-  describe('isBegining', () => {
-    it('should return true for song title line', () => {
-      expect(SongFactory.isBegining('## Song Title')).toBe(true);
-    });
-
-    it('should return false for single hash', () => {
-      expect(SongFactory.isBegining('# Not a song title')).toBe(false);
-    });
-
-    it('should return false for regular text', () => {
-      expect(SongFactory.isBegining('Regular text')).toBe(false);
-    });
-
-    it('should return false for meta lines', () => {
-      expect(SongFactory.isBegining('> meta/author: John')).toBe(false);
-    });
-
-    it('should return false for empty string', () => {
-      expect(SongFactory.isBegining('')).toBe(false);
-    });
-  });
-
   describe('constructor', () => {
-    it('should initialize with title without prefix', () => {
-      const factory = new SongFactory('## Amazing Grace');
+    it('should initialize with title', () => {
+      const factory = new SongFactory('Amazing Grace');
       expect(factory.title).toBe('Amazing Grace');
     });
 
-    it('should initialize with empty slug', () => {
-      const factory = new SongFactory('## Test Song');
-      expect(factory.slug).toBe('');
+    it('should initialize with slugified title', () => {
+      const factory = new SongFactory('Test Song');
+      expect(factory.slug).toBe('test-song');
     });
 
     it('should initialize with empty verses array', () => {
-      const factory = new SongFactory('## Test Song');
+      const factory = new SongFactory('Test Song');
       expect(factory.verses).toEqual([]);
     });
 
     it('should initialize with empty search text', () => {
-      const factory = new SongFactory('## Test Song');
+      const factory = new SongFactory('Test Song');
       expect(factory.searchText).toBe('');
     });
-
-    it('should initialize with undefined current verse', () => {
-      const factory = new SongFactory('## Test Song');
-      expect(factory.currentVerse).toBeUndefined();
-    });
   });
 
-  describe('finishVerse', () => {
+  describe('process', () => {
     let factory;
 
     beforeEach(() => {
-      factory = new SongFactory('## Test Song');
+      factory = new SongFactory('Test Song');
     });
 
-    it('should add current verse to verses and reset current verse', () => {
-      // Create a mock current verse
-      const mockVerse = {
-        get: jest.fn(() => ({ uuid: 'verse-uuid', lines: [] }))
-      };
-      factory.currentVerse = mockVerse;
+    it('should process meta content', () => {
+      const content = '> meta/author: John Doe\n> meta/album: Great Songs';
+      factory.process(content);
 
-      factory.finishVerse();
+      expect(factory.meta.author).toBe('John Doe');
+      expect(factory.meta.album).toBe('Great Songs');
+    });
+
+    it('should process verse content', () => {
+      const content = 'First line | C\nSecond line | G';
+      factory.process(content);
 
       expect(factory.verses).toHaveLength(1);
-      expect(factory.currentVerse).toBeUndefined();
-      expect(mockVerse.get).toHaveBeenCalled();
+      expect(factory.verses[0].lines).toHaveLength(2);
+      expect(factory.verses[0].lines[0]).toMatchObject({ text: 'First line', chord: 'C' });
+      expect(factory.verses[0].lines[1]).toMatchObject({ text: 'Second line', chord: 'G' });
     });
 
-    it('should do nothing if no current verse', () => {
-      factory.finishVerse();
-      expect(factory.verses).toHaveLength(0);
-    });
-  });
+    it('should process mixed meta and verse content', () => {
+      const content = '> meta/author: John Doe\n\nFirst line | C\nSecond line | G';
+      factory.process(content);
 
-  describe('addLine', () => {
-    let factory;
-
-    beforeEach(() => {
-      factory = new SongFactory('## Test Song');
+      expect(factory.meta.author).toBe('John Doe');
+      expect(factory.verses).toHaveLength(1);
+      expect(factory.verses[0].lines).toHaveLength(2);
     });
 
-    it('should process meta line when starting with >', () => {
-      const spiedProcessLine = jest.spyOn(factory.meta, 'processLine');
-      factory.addLine('> meta/author: John Doe');
+    it('should process multiple verses separated by double newlines', () => {
+      const content = 'Verse 1 Line 1 | C\nVerse 1 Line 2 | F\n\nVerse 2 Line 1 | G\nVerse 2 Line 2 | Am';
+      factory.process(content);
 
-      expect(spiedProcessLine).toHaveBeenCalledWith('> meta/author: John Doe');
-      expect(spiedProcessLine).toHaveBeenCalledTimes(1);
-      jest.restoreAllMocks();
-    });
-
-    it('should handle invalid meta', () => {
-      const spiedConsoleWarn = jest.spyOn(console, 'warn').mockImplementation(() => {});
-      
-      factory.addLine('> meta/invalid: value');
-      expect(spiedConsoleWarn).toHaveBeenCalledWith('Unknown song meta type: invalid');
-    });
-
-    it('should create new verse if none exists for non-meta line', () => {
-      factory.addLine('First line | C');
-
-      expect(factory.currentVerse).toBeDefined();
-      expect(factory.currentVerse?.lines).toHaveLength(1)
-      expect(factory.currentVerse?.lines[0]).toMatchObject({"chord": "C", "text": "First line"});
-    });
-
-    it('should be able to add multiple lines', () => {
-      factory.addLine('First line | C');
-      factory.addLine('Second line | G');
-
-      expect(factory.currentVerse).toBeDefined();
-      expect(factory.currentVerse?.lines).toHaveLength(2);
-      expect(factory.currentVerse?.lines[1]).toMatchObject({"chord": "G", "text": "Second line"});
+      expect(factory.verses).toHaveLength(2);
+      expect(factory.verses[0].lines).toHaveLength(2);
+      expect(factory.verses[1].lines).toHaveLength(2);
     });
   });
 
@@ -145,7 +93,7 @@ describe('SongFactory', () => {
     ];
 
     it('should create song object with correct structure', () => {
-      const result = createSongObject('Amazing Grace', mockMeta, mockVerses);
+      const result = createSongObject('amazing-grace', 'Amazing Grace', mockMeta, mockVerses);
       
       expect(result).toEqual({
         slug: 'amazing-grace',
@@ -157,7 +105,7 @@ describe('SongFactory', () => {
     });
 
     it('should generate search text from title, verses, and meta', () => {
-      const result = createSongObject('Amazing Grace', mockMeta, mockVerses);
+      const result = createSongObject('amazing-grace', 'Amazing Grace', mockMeta, mockVerses);
       
       expect(result.searchText).toContain('Amazing Grace');
       expect(result.searchText).toContain('Amazing grace');
@@ -166,7 +114,7 @@ describe('SongFactory', () => {
     });
 
     it('should handle empty verses', () => {
-      const result = createSongObject('Test Song', mockMeta, []);
+      const result = createSongObject('test-song', 'Test Song', mockMeta, []);
       
       expect(result.verses).toEqual([]);
       expect(result.searchText).toContain('Test Song');
@@ -174,7 +122,7 @@ describe('SongFactory', () => {
     });
 
     it('should handle empty meta', () => {
-      const result = createSongObject('Test Song', {}, mockVerses);
+      const result = createSongObject('test-song', 'Test Song', {}, mockVerses);
       
       expect(result.meta).toEqual({});
       expect(result.searchText).toContain('Test Song');

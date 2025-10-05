@@ -16,6 +16,43 @@ describe('SongVerseFactory', () => {
     });
   });
 
+  describe('processPart', () => {
+    it('should process multi-line verse content', () => {
+      const part = 'First line | C\nSecond line | G\nThird line | Am';
+      const result = factory.processPart(part);
+      
+      expect(result).not.toBeNull();
+      expect(result?.lines).toHaveLength(3);
+      expect(result?.lines[0]).toMatchObject({ text: 'First line', chord: 'C' });
+      expect(result?.lines[1]).toMatchObject({ text: 'Second line', chord: 'G' });
+      expect(result?.lines[2]).toMatchObject({ text: 'Third line', chord: 'Am' });
+    });
+
+    it('should handle single line content', () => {
+      const part = 'Single line | F';
+      const result = factory.processPart(part);
+      
+      expect(result).not.toBeNull();
+      expect(result?.lines).toHaveLength(1);
+      expect(result?.lines[0]).toMatchObject({ text: 'Single line', chord: 'F' });
+    });
+
+    it('should filter out empty lines', () => {
+      const part = 'First line | C\n\n\nSecond line | G\n';
+      const result = factory.processPart(part);
+      
+      expect(result).not.toBeNull();
+      expect(result?.lines).toHaveLength(2);
+    });
+
+    it('should return null for empty content', () => {
+      const part = '';
+      const result = factory.processPart(part);
+      
+      expect(result).toBeNull();
+    });
+  });
+
   describe('processLine', () => {
     it('should add line to lines array', () => {
       factory.processLine('Hello world | C');

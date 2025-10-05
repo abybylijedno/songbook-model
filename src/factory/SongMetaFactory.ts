@@ -18,6 +18,14 @@ export class SongMetaFactory implements ISongMeta {
   lyrics?: string;
   music?: string;
 
+  processPart(part: string): void {
+    const lines = part.split(/\r?\n/).map(line => line.trim()).filter(line => line.length > 0);
+
+    for (const line of lines) {
+      this.processLine(line);
+    }
+  }
+
   processLine(line: string) {
     const match: RegExpMatchArray | null = line.match(REGEXP);
     if (match == null || !match.groups) {

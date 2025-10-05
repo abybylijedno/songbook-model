@@ -9,6 +9,16 @@ export class SongVerseFactory implements ISongVerse {
     this.lines = [];
   }
 
+  processPart(part: string): ISongVerse | null {
+    const lines = part.split(/\r?\n/).map(line => line.trim()).filter(line => line.length > 0);
+
+    for (const line of lines) {
+      this.processLine(line);
+    }
+
+    return this.get();
+  }
+
   processLine(line: string): void {
     this.lines.push(VerseLineFactory.fromLine(line));
   }

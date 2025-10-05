@@ -1,17 +1,12 @@
-import { HASH, SPACE, GT } from '../constants.js';
+import { HASH, SPACE, GT, NL } from '../constants.js';
 import { SongMetaFactory } from './SongMetaFactory.js';
 import { SongVerseFactory } from './SongVerseFactory.js';
 import { type ISong, type ISongMeta, type ISongVerse } from '../model/index.js';
 import { slugify } from '../utils.js';
 
-const BEGINING: string = HASH + HASH + SPACE;
+const SEPARATOR = NL + NL;
 
 export class SongFactory implements ISong {
-
-  static isBegining(line: string): boolean {
-    return line.startsWith(BEGINING);
-  }
-
   slug: string;
   title: string;
   meta: SongMetaFactory;
@@ -21,47 +16,47 @@ export class SongFactory implements ISong {
   currentVerse?: SongVerseFactory;
 
   constructor(title: string) {
-    this.slug = "";
-    this.title = title.substring(BEGINING.length);
+    this.slug = slugify(title);
+    this.title = title;
     this.meta = new SongMetaFactory();
     this.verses = [];
     this.searchText = "";
-
-    this.currentVerse = undefined;
   }
 
-  finishVerse(): void {
-    if (this.currentVerse != null) {
-      const verse = this.currentVerse.get();
-      if (verse != null) {
-        this.verses.push(verse);
-      }
-      delete this.currentVerse;
-    }
-  }
+  process(content: string): void {
+    content = content.trim();
 
-  addLine(line: string): void {
-    if (line.startsWith(GT)) {
-      try {
-        this.meta.processLine(line);
-      } catch (e) {
-        console.warn(e.message);
+    let part: string;
+    let nextSplitIndex: number;
+    do {
+      nextSplitIndex = content.indexOf(SEPARATOR);
+      if (nextSplitIndex < 0) {
+        nextSplitIndex = content.length;
       }
-    } else {
-      if (this.currentVerse == null) {
-        this.currentVerse = new SongVerseFactory();
+      
+      part = content.substring(0, nextSplitIndex).trim();
+
+      if (part.startsWith(GT)) {
+        this.meta.processPart(part);
+      } else {
+        const vf = new SongVerseFactory();
+        const verse = vf.processPart(part);
+
+        if (verse != null) {
+          this.verses.push(verse);
+        }
       }
 
-      this.currentVerse.processLine(line);
-    }
+      content = content.substring(nextSplitIndex + SEPARATOR.length).trim();
+    } while (content.length > 0);
   }
 
   get(): ISong {
-    return createSongObject(this.title, this.meta.get(), this.verses);
+    return createSongObject(this.slug, this.title, this.meta.get(), this.verses);
   }
 }
 
-export const createSongObject = (title: string, meta: ISongMeta, verses: ISongVerse[]): ISong => {
+export const createSongObject = (slug: string, title: string, meta: ISongMeta, verses: ISongVerse[]): ISong => {
   const searchText = [
     title,
     verses.map((verse) => verse.lines.map((line) => line.text).join("\n")).join("\n"),
@@ -69,7 +64,7 @@ export const createSongObject = (title: string, meta: ISongMeta, verses: ISongVe
   ].join("\n");
   // console.log(searchText);
   return {
-    slug: slugify(title),
+    slug,
     title,
     meta,
     verses,

@@ -1,0 +1,1 @@
+{"version":3,"file":"ISongMetaUrl.d.ts","sourceRoot":"","sources":["../../src/model/ISongMetaUrl.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,eAAe,EAAE,MAAM,sBAAsB,CAAC;AAE5D,MAAM,WAAW,YAAY;IAC3B,IAAI,EAAE,eAAe,CAAC;IACtB,KAAK,EAAE,MAAM,CAAC;CACf;AAED,MAAM,MAAM,gBAAgB,GAAG,MAAM,YAAY,CAAC"}
